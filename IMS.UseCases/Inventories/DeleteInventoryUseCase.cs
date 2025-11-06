@@ -18,6 +18,10 @@ namespace IMS.UseCases.Inventories
         public async Task ExecuteAsync(Inventory inventory)
         {
             await this.inventoryRepository.DeleteInventoryAsync(inventory);
+
+        }
+        public async Task ExecuteAsync(int inventoryID) { 
+        await   this.inventoryRepository.DeleteInventoryByIdAsync(inventoryID);
         }
     }
 }

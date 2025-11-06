@@ -13,7 +13,7 @@ namespace IMS.Plugins.InMemory
             new Inventory { InventoryID=1, InventoryName="Byke Seat", Quantity=10, Price=2},
             new Inventory { InventoryID=2, InventoryName="Byke Body", Quantity=10, Price=15},
             new Inventory { InventoryID=3, InventoryName="Byke Wheels" , Quantity=20 , Price=8},
-            new Inventory { InventoryID=3, InventoryName="Byke Pedals", Quantity=20 , Price=1}
+            new Inventory { InventoryID=4, InventoryName="Byke Pedals", Quantity=20 , Price=1}
         };
 
         }
@@ -42,6 +42,16 @@ namespace IMS.Plugins.InMemory
 
                 return Task.CompletedTask;
 
+        }
+
+        public Task DeleteInventoryByIdAsync(int inventoryID)
+        {
+            var inventory = this._inventories.FirstOrDefault(x => x.InventoryID == inventoryID);
+            if (inventory != null)
+            {
+                this._inventories.Remove(inventory);
+            }
+            return Task.CompletedTask;
         }
 
         public async Task<Inventory> GetInventoryByIDAsync(int inventoryID)
