@@ -3,6 +3,7 @@
 
 @inject IViewInventoriesByNameUseCase ViewInventoriesByNameUseCase
 @inject IEditInventoryUseCase EditInventoryUseCase
+@inject IDeleteInventoryUseCase DeleteInventoryUseCase
 <PageTitle>Test Page</PageTitle>
 
 <br />
@@ -25,6 +26,8 @@
         // Test edit inventory
         var inventory1 = new Inventory { InventoryID = 1, InventoryName = "Byke Seat", Quantity = 50, Price = 3 };
         await EditInventoryUseCase.ExecuteAsync(inventory1);
+        // Test delete 
+        //await DeleteInventoryUseCase.ExecuteAsync(inventory1);
 
         inventories=(await ViewInventoriesByNameUseCase.ExecuteAsync()).ToList();
     }

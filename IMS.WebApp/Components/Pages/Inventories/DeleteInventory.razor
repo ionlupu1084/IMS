@@ -1,0 +1,19 @@
+﻿@page "/deleteinventory/{invId:int}"
+@inject IDeleteInventoryUseCase DeleteInventoryUseCase
+@inject IViewInventoryByIDUseCase ViewInventoryByIDUseCase
+@inject NavigationManager NavigationManager;
+
+@code {
+    [Parameter]
+    public int InvId { get; set; }
+    protected override async Task OnParametersSetAsync()
+    {
+        var inventory = await ViewInventoryByIDUseCase.ExecuteAsync(InvId);
+        await DeleteInventoryUseCase.ExecuteAsync(inventory);
+        if (inventory is null)
+        {
+            NavigationManager.NotFound();
+        }
+        NavigationManager.NavigateTo("/inventories");
+    }
+}
