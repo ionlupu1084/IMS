@@ -2,6 +2,8 @@ using IMS.Plugins.InMemory;
 using IMS.UseCases.Inventories;
 using IMS.UseCases.Inventories.Interfaces;
 using IMS.UseCases.PluginInterfaces;
+using IMS.UseCases.Products;
+using IMS.UseCases.Products.Interfaces;
 using IMS.WebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,11 +11,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents();
 builder.Services.AddSingleton<IInventoryRepository,InventoryRepository>();
-builder.Services.AddTransient<IViewInventoriesByNameUseCase,ViewInventoriesByNameUseCase>();
+builder.Services.AddTransient<IViewInventoriesByNameUseCase, ViewInventoriesByNameUseCase>();
 builder.Services.AddTransient<IAddInventoryUseCase, AddInventoryUseCase>();
 builder.Services.AddTransient<IEditInventoryUseCase, EditInventoryUseCase>();
 builder.Services.AddTransient<IViewInventoryByIDUseCase, ViewInventoryByIDUseCase>();
 builder.Services.AddTransient<IDeleteInventoryUseCase, DeleteInventoryUseCase>();
+
+builder.Services.AddSingleton<IProductsRepository, ProductRepository>();
+builder.Services.AddTransient<IViewProductsByNameUseCase, ViewProductsByNameUseCase>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
