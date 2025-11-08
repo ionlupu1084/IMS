@@ -1,5 +1,6 @@
 ﻿
 @inject NavigationManager NavigationManger
+@inject IDeleteInventoryUseCase DeleteInventoryUseCase
 
 @if (this.Product is not null)
 {
@@ -15,7 +16,10 @@
             
         </td>
         <td>
-
+            <button 
+                type="button" 
+                class="btn btn-light"
+            @onclick="async () => { await HandleDelete(Product.ProductID); }">Delete</button>
         </td>
     </tr>
 
@@ -24,4 +28,9 @@
 @code {
     [Parameter]
     public Product? Product{ get; set; }
+    private async Task HandleDelete(int productId)
+    {
+       await DeleteInventoryUseCase.ExecuteAsync(productId);
+        this.Product = null;
+    }
 }

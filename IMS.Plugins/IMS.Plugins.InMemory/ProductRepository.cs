@@ -31,11 +31,11 @@ namespace IMS.Plugins.InMemory
 
         }
 
-        public  Task DeleteProductAsync(Product Product)
+        public  Task DeleteProductByIdAsync(int productID)
         {
-            if (_products.Any(x => x.ProductID == Product.ProductID))
+            if (_products.Any(x => x.ProductID == productID))
             {
-                this._products.Remove(_products.FirstOrDefault(x => x.ProductID==Product.ProductID));
+                this._products.Remove(_products.FirstOrDefault(x => x.ProductID== productID));
                 return  Task.CompletedTask;
             }
 

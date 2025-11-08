@@ -1,7 +1,6 @@
 ﻿
-
-
 @inject IViewProductsByNameUseCase ViewProductsByNameUseCase
+
 <PageTitle>Test Page</PageTitle>
 
 <br />
@@ -13,7 +12,7 @@
             <td>Name</td>
             <td>Quantity</td>
             <td>Price</td>
-            <td></td>
+            <td></td> 
         </tr>
     </thead>
     <tbody>
@@ -21,7 +20,7 @@
         {
             foreach (var inv in Products)
             {
-               <ProductListItemComponent Product="inv"></ProductListItemComponent>
+               <ProductListItemComponent @rendermode="InteractiveServer" Product="inv"></ProductListItemComponent>
             }
         }
     </tbody>
