@@ -2,6 +2,7 @@ using IMS.Plugins.InMemory;
 using IMS.UseCases.Inventories;
 using IMS.UseCases.Inventories.Interfaces;
 using IMS.UseCases.PluginInterfaces;
+using IMS.UseCases.products;
 using IMS.UseCases.Products;
 using IMS.UseCases.Products.Interfaces;
 using IMS.WebApp.Components;
@@ -21,6 +22,7 @@ builder.Services.AddTransient<IDeleteInventoryUseCase, DeleteInventoryUseCase>()
 builder.Services.AddSingleton<IProductsRepository, ProductRepository>();
 builder.Services.AddTransient<IViewProductsByNameUseCase, ViewProductsByNameUseCase>();
 builder.Services.AddTransient<IDeleteProductUseCase, DeleteProductUseCase>();
+builder.Services.AddTransient<IAddProductUseCase, AddProductUseCase>();
 
 var app = builder.Build();
 

@@ -1,6 +1,6 @@
 ﻿
 @inject NavigationManager NavigationManger
-@inject IDeleteInventoryUseCase DeleteInventoryUseCase
+@inject IDeleteProductUseCase DeleteProductUseCase
 
 @if (this.Product is not null)
 {
@@ -30,7 +30,7 @@
     public Product? Product{ get; set; }
     private async Task HandleDelete(int productId)
     {
-       await DeleteInventoryUseCase.ExecuteAsync(productId);
+        await DeleteProductUseCase.ExecuteAsync(productId);
         this.Product = null;
     }
 }
