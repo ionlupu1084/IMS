@@ -4,7 +4,8 @@
         type="text" 
         class="form-control" 
         @bind-value="userInput"
-           @bind-value:event="oninput"/>
+           @bind-value:event="oninput"
+           @onkeyup="OnkeyUp"/>
 
 
 </div>
@@ -12,11 +13,17 @@
 {
     <div class="search-results">
         <ul>
-            @foreach (var item in searchResults)
-            {
-                <li @key="item.Id" >
+            @{
+                int itemIndex = 0;
+                foreach (var item in searchResults)
+                {
+                <li @key="item.Id" 
+                    class="@(itemIndex==currentItemIndex?"selected":"")"
+                    @onclick="()=>HandleOnClickItem(item)" >
                     @item.Name
                 </li>
+                    itemIndex++;
+                }
             }
 
         </ul>
@@ -28,8 +35,14 @@
     public string Label { get; set; } = string.Empty;
     [Parameter]
     public Func<string, List<ItemViewModel>>? SearchFunction { get; set; }
+    [Parameter]
+    public EventCallback<ItemViewModel> OnItemSelected { get; set; }
     private List<ItemViewModel>? searchResults = null;
-    
+
+    private ItemViewModel? selectedItem = null;
+    private ItemViewModel? currentItem = null;
+    private int currentItemIndex = -1;
+
     //public delegate List<ItemViewModel> SearchDelegate(string searchText);
 
     private string _userInput=string.Empty;
@@ -44,7 +57,54 @@
                 // Handle the results as needed
             }
 
+
         }
+    }
+    private void HandleOnClickItem(ItemViewModel item)
+    {
+        ClearHighlight();
+     
+        if (item != null)
+        {
+           
+            this.selectedItem = item;
+            this.userInput = item?.Name ?? string.Empty;
+            this.searchResults = null;
+            OnItemSelected.InvokeAsync(item);
+        }
+        
+
+    }
+    private void OnkeyUp(KeyboardEventArgs e)
+    {
+        if(searchResults!=null && searchResults.Count>0 && (e.Code=="ArrowDown"|| e.Code == "ArrowUp"))
+        {
+            if (e.Code == "ArrowDown" && currentItemIndex<searchResults.Count-1)
+            {
+                currentItem = searchResults[++currentItemIndex];
+            }
+            else if (e.Code == "ArrowUp" )
+            {
+                if (currentItemIndex > 0) currentItem = searchResults[--currentItemIndex];
+                else
+                {
+                    currentItemIndex = -1;
+                    currentItem = null;
+                }
+            }
+        }
+        else if(e.Code=="Enter" ||e.Code=="NumpadEnter")
+        {
+            HandleOnClickItem(currentItem);
+            currentItemIndex = -1;
+            currentItem = null;
+        }
+    }
+    private void ClearHighlight()
+    {
+        searchResults = null;
+        currentItemIndex = -1;
+        currentItem = null;
     }
     public class ItemViewModel
     {
